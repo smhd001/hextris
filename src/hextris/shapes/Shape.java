@@ -96,4 +96,10 @@ public abstract class Shape extends Group {
         return hexagons[0].getY();
     }
 
+    public static Shape newShape()
+    {
+        System.out.println();
+        return new Shape2(1, 3);
+    }
+
 }

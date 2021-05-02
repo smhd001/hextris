@@ -1,6 +1,8 @@
 package hextris;
 
-import hextris.shapes.Shape1;
+import hextris.shapes.Shape;
+import hextris.shapes.Shape3;
+import hextris.shapes.Shape7;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -12,16 +14,14 @@ import javafx.util.Duration;
 
 
 public class Main extends Application {
-    int y = 0;
-    Shape1 shape1 = new Shape1(3, 1);
+    Shape shape1 = new Shape3(6, 1);
     boolean pause = false;
+    Group root = new Group();
+    Board board = new Board(root);
 
     @Override
     public void start(Stage stage) throws Exception {
-        Group root = new Group();
         Scene scene = new Scene(root);
-        Board board = new Board(root);
-//                int[] p = s.getPoints();    Shape1 shape1 = new Shape1(7,1);
         root.getChildren().add(shape1);
 
         Timeline tl = new Timeline(new KeyFrame(Duration.seconds(1),
@@ -33,9 +33,9 @@ public class Main extends Application {
                     if (board.isStop(shape1, 0, 1))
                     {
                         board.addToBoard(shape1);
-                        shape1 = new Shape1(7, 2);
+                        shape1 = new Shape7(6, 1);
                         root.getChildren().add(shape1);
-                        y = 0;
+                        board.clearRow();
                     }
                 }));
         System.out.println("ppppp");
@@ -77,6 +77,10 @@ public class Main extends Application {
             if (e.getCode() == KeyCode.Q)
             {
                 stage.close();
+            }
+            if (e.getCode() == KeyCode.R)
+            {
+                board = new Board(root);
             }
         });
 
