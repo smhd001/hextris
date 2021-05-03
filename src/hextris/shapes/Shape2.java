@@ -3,8 +3,6 @@ package hextris.shapes;
 import hextris.Hexagon;
 import javafx.scene.paint.Color;
 
-import java.util.Arrays;
-
 public class Shape2 extends Shape {
     public Shape2(int x, int y)
     {
@@ -22,12 +20,6 @@ public class Shape2 extends Shape {
     @Override
     public Shape clone() {
         return new Shape2(this.getCenterX(), this.getCenterY());
-    }
-
-
-    public static void main(String[] args) {
-        Shape2 shape1 = new Shape2(7, 1);
-        System.out.println(Arrays.toString(shape1.getPoints()));
     }
 
 }

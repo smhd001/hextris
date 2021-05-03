@@ -9,8 +9,9 @@ import java.util.concurrent.TimeUnit;
 
 public class Board {
     private static final int ROW = 21;
-    private final int COLUMN = 15;
+    private static final int COLUMN = 15;
     private final Object[][] board = new Object[COLUMN][ROW];
+    int point;
 
     public Board(Group root)
     {
@@ -50,9 +51,12 @@ public class Board {
         }
     }
 
-    public void setBoard(Object o, int x, int y)
-    {
-        board[x][y] = o;
+    public static int getROW() {
+        return ROW;
+    }
+
+    public static int getCOLUMN() {
+        return COLUMN;
     }
 
     public boolean isFull(int x, int y)
@@ -114,8 +118,14 @@ public class Board {
         return true;
     }
 
+    public boolean isGameOver()
+    {
+        return isFull(6, 1);
+    }
+
     public void deleteRow(int row) throws InterruptedException
     {
+        point += 10;
         for (int i = 1; i < COLUMN - 1; i++)
         {
             ((Group) (((Hexagon) board[i][row]).getParent())).getChildren().remove(board[i][row]);
@@ -142,7 +152,7 @@ public class Board {
     {
         for (int i = ROW - 2; i > 1; i--)
         {
-            printBoard();
+//            printBoard();
             if (isRowFull(i))
             {
                 deleteRow(i);

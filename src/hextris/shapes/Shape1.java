@@ -16,11 +16,9 @@ public class Shape1 extends Shape {
         setColor(Color.YELLOW);
         getChildren().addAll(hexagons);
     }
-
     @Override
     public Shape clone() {
         return new Shape1(this.getCenterX(), this.getCenterY());
     }
-
 }
 
