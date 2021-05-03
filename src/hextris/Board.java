@@ -4,6 +4,8 @@ import hextris.shapes.Shape;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 
+import java.util.concurrent.TimeUnit;
+
 
 public class Board {
     private static final int ROW = 21;
@@ -41,8 +43,8 @@ public class Board {
             for (int j = 0; j < ROW - 1; j++)
             {
                 Hexagon hexagon = new Hexagon(i, j);
-                hexagon.setFill(Color.LIGHTGREEN);
-                hexagon.setStroke(Color.DEEPPINK);
+                hexagon.setFill(Color.LIGHTGREY);
+                hexagon.setStroke(Color.DARKGRAY);
                 root.getChildren().add(hexagon);
             }
         }
@@ -112,13 +114,14 @@ public class Board {
         return true;
     }
 
-    public void deleteRow(int row)
+    public void deleteRow(int row) throws InterruptedException
     {
         for (int i = 1; i < COLUMN - 1; i++)
         {
             ((Group) (((Hexagon) board[i][row]).getParent())).getChildren().remove(board[i][row]);
             board[i][row] = null;
         }
+        TimeUnit.SECONDS.sleep(1);
         for (int i = row; i > 0; i--)
         {
             for (int j = 1; j < COLUMN - 1; j++)
@@ -126,17 +129,19 @@ public class Board {
                 if (isFull(j, i))
                 {
                     ((Hexagon) (board[j][i])).setTranslateY(((Hexagon) board[j][i]).getTranslateY() + Hexagon.getH());
-                    board[j][i] = board[j - 1][i];
+                    board[j][i + 1] = board[j][i];
+                } else if (i < 19)
+                {
+                    board[j][i + 1] = board[j][i];
                 }
             }
         }
     }
 
-    public void clearRow()
+    public void clearRow() throws InterruptedException
     {
         for (int i = ROW - 2; i > 1; i--)
         {
-//            System.out.println("isFullRow("+","+ i +") = " + isRowFull(i) );
             printBoard();
             if (isRowFull(i))
             {

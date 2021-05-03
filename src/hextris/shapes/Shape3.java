@@ -1,6 +1,7 @@
 package hextris.shapes;
 
 import hextris.Hexagon;
+import javafx.scene.paint.Color;
 
 import java.util.Arrays;
 
@@ -14,6 +15,7 @@ public class Shape3 extends Shape {
                         new Hexagon(x + 1, y + 1),
                         new Hexagon(x + 1, y + 2)
                 };
+        setColor(Color.GREEN);
         getChildren().addAll(hexagons);
     }
 

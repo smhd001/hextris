@@ -2,6 +2,7 @@ package hextris.shapes;
 
 import hextris.Hexagon;
 import javafx.scene.Group;
+import javafx.scene.paint.Paint;
 import javafx.scene.transform.Rotate;
 
 
@@ -12,6 +13,27 @@ public abstract class Shape extends Group {
     private int rotateTime;
 
     abstract public Shape clone();
+
+    public int[] getPoints() {
+        Object[] p = getChildren().toArray();
+        int[] a = new int[2 * p.length];
+        for (int i = 0; i < a.length; i += 2)
+        {
+            a[i] = ((Hexagon) p[i / 2]).getX();
+            a[i + 1] = ((Hexagon) p[i / 2]).getY();
+        }
+        return a;
+    }
+
+    public int getCenterX()
+    {
+        return hexagons[0].getX();
+    }
+
+    public int getCenterY()
+    {
+        return hexagons[0].getY();
+    }
 
     private void TranslateY(double y)
     {
@@ -61,6 +83,10 @@ public abstract class Shape extends Group {
         rotateTime++;
     }
 
+    public int getRotateTime() {
+        return rotateTime %= 6;
+    }
+
     public void rotateCW(int n)
     {
         Rotate rotate = new Rotate(60, hexagons[0].getBoundsInLocal().getCenterX(), hexagons[0].getBoundsInLocal().getCenterY());
@@ -71,35 +97,34 @@ public abstract class Shape extends Group {
         }
     }
 
-    public int getRotateTime() {
-        return rotateTime %= 6;
-    }
-
-    public int[] getPoints() {
-        Object[] p = getChildren().toArray();
-        int[] a = new int[2 * p.length];
-        for (int i = 0; i < a.length; i += 2)
+    public void setColor(Paint c)
+    {
+        for (Hexagon h : hexagons)
         {
-            a[i] = ((Hexagon) p[i / 2]).getX();
-            a[i + 1] = ((Hexagon) p[i / 2]).getY();
+            h.setFill(c);
         }
-        return a;
-    }
-
-    public int getCenterX()
-    {
-        return hexagons[0].getX();
-    }
-
-    public int getCenterY()
-    {
-        return hexagons[0].getY();
     }
 
     public static Shape newShape()
     {
-        System.out.println();
-        return new Shape2(1, 3);
+        switch ((int) (Math.random() * 7) + 1)
+        {
+            case 1:
+                return new Shape1(6, 1);
+            case 2:
+                return new Shape2(6, 1);
+            case 3:
+                return new Shape3(6, 1);
+            case 4:
+                return new Shape4(6, 1);
+            case 5:
+                return new Shape5(6, 1);
+            case 6:
+                return new Shape6(6, 1);
+            case 7:
+                return new Shape7(6, 1);
+        }
+        return null;
     }
 
 }
