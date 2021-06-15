@@ -6,6 +6,7 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
@@ -14,14 +15,12 @@ import javafx.util.Duration;
 
 public class Main extends Application {
     Shape shape = Shape.newShape();
-    boolean pause = false;
+    boolean pause = true;
     Group root = new Group();
     Board board = new Board(root);
     Label label = new Label(Integer.toString(board.point));
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -49,17 +48,71 @@ public class Main extends Application {
                     }
                     if (board.isGameOver())
                     {
-                        Label label3 = new Label("you are game over");
+                        Label label3 = new Label("Game over");
                         label3.setLayoutX(Hexagon.getA() * Board.getCOLUMN() - 30);
                         label3.setLayoutY(Hexagon.getA() * Board.getCOLUMN());
-                        label3.setScaleX(2);
-                        label3.setScaleY(2);
+                        label3.setScaleX(4);
+                        label3.setScaleY(4);
                         root.getChildren().add(label3);
                     }
                 }));
-        System.out.println("ppppp");
+        setOnAction(scene,tl,stage);
+
         tl.setCycleCount(Timeline.INDEFINITE);
-        tl.play();
+
+        Button restart = new Button();
+        restart.setText("restart");
+        restart.setOnMouseClicked( e -> {
+            board = new Board(root);
+            shape = Shape.newShape();
+            root.getChildren().add(shape);
+        });
+        Button stop = new Button();
+        stop.setText("start");
+        stop.setOnMouseClicked( e -> {
+            if (pause)
+            {
+                tl.play();
+                pause = false;
+                stop.setText("pause");
+            } else
+            {
+                tl.pause();
+                pause = true;
+                stop.setText("resume");
+            }
+        });
+        stop.setFocusTraversable(false);
+        stop.setLayoutX(2 * Hexagon.getA() * Board.getCOLUMN() - 74);
+        stop.setLayoutY(Hexagon.getA() * Board.getCOLUMN() - 70);
+        stop.setScaleX(2);
+        stop.setScaleY(2);
+        root.getChildren().addAll(stop);
+
+        restart.setFocusTraversable(false);
+        restart.setLayoutX(2 * Hexagon.getA() * Board.getCOLUMN() - 80);
+        restart.setLayoutY(Hexagon.getA() * Board.getCOLUMN());
+        restart.setScaleX(1.5);
+        restart.setScaleY(1.5);
+        root.getChildren().addAll(restart);
+
+        label.setScaleX(2);
+        label.setScaleY(2);
+        label.setLayoutX(2 * Hexagon.getA() * Board.getCOLUMN() - 70);
+        label.setLayoutY(Hexagon.getA() * Board.getCOLUMN() - 190);
+        Label label2 = new Label("score");
+        label2.setLayoutX(2 * Hexagon.getA() * Board.getCOLUMN() - 80);
+        label2.setLayoutY(Hexagon.getA() * Board.getCOLUMN() - 230);
+        label2.setScaleX(2);
+        label2.setScaleY(2);
+        root.getChildren().addAll(label, label2);
+        stage.setScene(scene);
+        stage.setWidth(2 * Hexagon.getA() * Board.getCOLUMN() + 40);
+        stage.setTitle("H   E   X   T   R   I   X");
+        stage.show();
+    }
+    private void setOnAction(Scene scene, Timeline tl,Stage stage)
+    {
         scene.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.P)
             {
@@ -111,19 +164,8 @@ public class Main extends Application {
                 stage.close();
             }
         });
-        label.setScaleX(2);
-        label.setScaleY(2);
-        label.setLayoutX(2 * Hexagon.getA() * Board.getCOLUMN() - 70);
-        label.setLayoutY(Hexagon.getA() * Board.getCOLUMN() - 190);
-        Label label2 = new Label("score");
-        label2.setLayoutX(2 * Hexagon.getA() * Board.getCOLUMN() - 80);
-        label2.setLayoutY(Hexagon.getA() * Board.getCOLUMN() - 230);
-        label2.setScaleX(2);
-        label2.setScaleY(2);
-        root.getChildren().addAll(label, label2);
-        stage.setScene(scene);
-        stage.setWidth(2 * Hexagon.getA() * Board.getCOLUMN() + 40);
-        stage.setTitle("H   E   X   T   R   I   X");
-        stage.show();
+    }
+    public static void main(String[] args) {
+        launch(args);
     }
 }

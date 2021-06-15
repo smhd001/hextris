@@ -1,5 +1,4 @@
 package hextris.shapes;
-
 import hextris.Hexagon;
 import javafx.scene.paint.Color;
 
@@ -16,7 +15,6 @@ public class Shape6 extends Shape {
         setColor(Color.RED);
         getChildren().addAll(hexagons);
     }
-
     @Override
     public Shape clone() {
         return new Shape6(this.getCenterX(), this.getCenterY());

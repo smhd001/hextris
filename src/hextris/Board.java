@@ -1,8 +1,11 @@
 package hextris;
 
 import hextris.shapes.Shape;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
+import javafx.util.Duration;
 
 import java.util.concurrent.TimeUnit;
 
@@ -126,12 +129,13 @@ public class Board {
     public void deleteRow(int row) throws InterruptedException
     {
         point += 10;
+        //delete one row
         for (int i = 1; i < COLUMN - 1; i++)
         {
             ((Group) (((Hexagon) board[i][row]).getParent())).getChildren().remove(board[i][row]);
             board[i][row] = null;
         }
-        TimeUnit.SECONDS.sleep(1);
+        //move above row down
         for (int i = row; i > 0; i--)
         {
             for (int j = 1; j < COLUMN - 1; j++)
@@ -146,6 +150,7 @@ public class Board {
                 }
             }
         }
+        TimeUnit.MILLISECONDS.sleep(500);
     }
 
     public void clearRow() throws InterruptedException
